@@ -1,3 +1,5 @@
+import { LOAD_MORE_STATUS } from '@/config';
+
 export type SnackbarOptions = {
   visibleIcon: boolean;
   timeout: number;
@@ -22,17 +24,37 @@ export type LoginCredentials = {
 
 export type NuxtAppAuth = {
   loggedIn: Ref<boolean>;
-  loginWith: (strategy: LoginStrategy, credentials?: LoginCredentials ) => Promise<boolean>;
+  loginWith: (strategy: LoginStrategy, credentials?: LoginCredentials) => Promise<boolean>;
   logout: (redirectPath?: string) => void;
-}
+  token: Ref<string | null | undefined>;
+};
 
 export type AppDataError = {
-  icon?: string
-}
+  icon?: string;
+};
 
 export type AppError = {
-  statusCode: number
-  statusMessage: string
-  message: string
-  data?: AppDataError
+  statusCode: number;
+  statusMessage: string;
+  message: string;
+  data?: AppDataError;
+};
+
+export type FacebookLoginResponse = {
+  authResponse: {
+    accessToken: string;
+    expiresIn: number;
+    signedRequest: string;
+    userID: string;
+  };
+  status: string;
+};
+
+export type KeyOfLoadMoreStatus = keyof typeof LOAD_MORE_STATUS
+export type LoadMoreStatus = (typeof LOAD_MORE_STATUS)[KeyOfLoadMoreStatus]
+export type LoadMoreSide = 'start' | 'end' | 'both'
+
+export type LoadMoreProps = {
+  side: LoadMoreSide
+  done: (status: LoadMoreStatus) => void
 }

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { z } from 'zod'
+import { z } from 'zod';
 
-import { LoginStrategy } from '@/types'
+import { LoginStrategy } from '@/types';
 
 definePageMeta({
   layout: 'auth',
-  auth: 'guest'
-})
+  auth: false
+});
 
-const { $auth } = useNuxtApp()
-const router = useRouter()
-const route = useRoute()
+const { $auth } = useNuxtApp();
+const router = useRouter();
+const route = useRoute();
 
-const emailQuery = computed(() => route.query.email as string | undefined)
+const emailQuery = computed(() => route.query.email as string | undefined);
 
 const { useFieldModel, errors, handleSubmit } = useForm({
   initialValues: {
@@ -27,21 +27,29 @@ const { useFieldModel, errors, handleSubmit } = useForm({
       rememberMe: z.boolean()
     })
   )
-})
+});
 
-const [email, password, rememberMe] = useFieldModel(['email', 'password', 'rememberMe'])
+const [email, password, rememberMe] = useFieldModel(['email', 'password', 'rememberMe']);
 
 const onLogin = handleSubmit(async (values) => {
-  const loggedIn = await $auth.loginWith(LoginStrategy.LOCAL, values)
+  const loggedIn = await $auth.loginWith(LoginStrategy.LOCAL, values);
 
   if (loggedIn) {
-    router.push('/')
+    router.push('/');
   }
-})
+});
 
 const forgotPasswordLink = computed(() => {
-  return `/forgot-password${email.value ? `?email=${email.value}` : ''}`
-})
+  return `/forgot-password${email.value ? `?email=${email.value}` : ''}`;
+});
+
+const loginWithFacebook = async () => {
+  const loggedIn = await $auth.loginWith(LoginStrategy.FACEBOOK);
+
+  if (loggedIn) {
+    router.push('/');
+  }
+};
 </script>
 
 <template>
@@ -50,7 +58,9 @@ const forgotPasswordLink = computed(() => {
       width="500"
       class="card"
     >
-      <h1 class="title">Login</h1>
+      <h1 class="title">
+        Login
+      </h1>
       <v-form
         class="form"
         @submit.prevent="onLogin"
@@ -102,17 +112,18 @@ const forgotPasswordLink = computed(() => {
             rounded
             size="large"
             block
+            @click="loginWithFacebook"
           >
             Facebook
           </v-btn>
-          <v-btn
+          <!-- <v-btn
             color="error"
             rounded
             size="large"
             block
           >
             Google
-          </v-btn>
+          </v-btn> -->
         </div>
 
         <p class="text">
@@ -121,8 +132,7 @@ const forgotPasswordLink = computed(() => {
             to="/register"
             class="link"
           >
-            register </nuxt-link
-          >.
+            register </nuxt-link>.
         </p>
       </v-form>
     </v-sheet>

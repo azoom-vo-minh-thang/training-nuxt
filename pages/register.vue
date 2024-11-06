@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { z } from 'zod'
+import { z } from 'zod';
 
-import { SNACKBAR_TYPE, ROUTES } from '@/config'
+import { SNACKBAR_TYPE, ROUTES } from '@/config';
 
 definePageMeta({
-  layout: 'auth',
-  auth: 'guest'
-})
+  layout: 'auth'
+});
 
-const { $services } = useNuxtApp()
-const router = useRouter()
-const { showLoading, hideLoading, showSnackbar } = useAppStore()
+const { $services } = useNuxtApp();
+const router = useRouter();
+const { showLoading, hideLoading, showSnackbar } = useAppStore();
 
-const { useFieldModel, errors, handleSubmit, resetForm } = useForm({
+const { useFieldModel, errors, handleSubmit } = useForm({
   initialValues: {
     name: '',
     email: '',
@@ -30,24 +29,24 @@ const { useFieldModel, errors, handleSubmit, resetForm } = useForm({
       )
     })
   )
-})
+});
 
-const [name, email, password, confirmPassword] = useFieldModel(['name', 'email', 'password', 'confirmPassword'])
-const acceptTerms = ref(false)
+const [name, email, password, confirmPassword] = useFieldModel(['name', 'email', 'password', 'confirmPassword']);
+const acceptTerms = ref(false);
 
-const register = handleSubmit(async values => {
-  showLoading()
-  const newUser = await $services.auth.register(values)
-  hideLoading()
+const register = handleSubmit(async (values) => {
+  showLoading();
+  const newUser = await $services.auth.register(values);
+  hideLoading();
 
   if (newUser) {
-    showSnackbar(SNACKBAR_TYPE.success, 'Register successfully')
+    showSnackbar(SNACKBAR_TYPE.success, 'Register successfully');
     router.push({
       name: ROUTES.login.name,
       query: { email: values.email }
-    })
+    });
   }
-})
+});
 </script>
 
 <template>
@@ -56,7 +55,9 @@ const register = handleSubmit(async values => {
       width="500"
       class="card"
     >
-      <h1 class="title">Register</h1>
+      <h1 class="title">
+        Register
+      </h1>
       <v-form
         class="form"
         @submit.prevent="register"
@@ -116,8 +117,7 @@ const register = handleSubmit(async values => {
           <nuxt-link
             to="/login"
             class="link"
-            >log in</nuxt-link
-          >.
+          >log in</nuxt-link>.
         </p>
       </v-form>
     </v-sheet>

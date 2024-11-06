@@ -1,17 +1,19 @@
 export const setStorage = (key: string, value: any) => {
   if (typeof value === 'object') {
-    localStorage.setItem(key, JSON.stringify(value))
-  } else {
-    localStorage.setItem(key, value)
+    localStorage.setItem(key, JSON.stringify(value));
   }
-}
+  else {
+    localStorage.setItem(key, value);
+  }
+};
 
 export const getStorage = (key: string) => {
-  const value = localStorage.getItem(key)
+  const value = localStorage.getItem(key);
 
   try {
-    return value ? JSON.parse(value) : null
-  } catch (e) {
-    return value
+    return value ? JSON.parse(value) : null;
   }
-}
+  catch {
+    return value;
+  }
+};

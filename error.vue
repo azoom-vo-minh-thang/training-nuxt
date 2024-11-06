@@ -1,30 +1,33 @@
 <script setup lang="ts">
-import type { AppError } from '@/types'
+import type { AppError } from '@/types';
 
-import { ERROR_STATUS } from '@/config'
+import { ERROR_STATUS } from '@/config';
 
 const { error } = defineProps<{
-  error: AppError
-}>()
+  error: AppError;
+}>();
 
 const icon = computed(() => {
-  if (error?.data?.icon) { return error.data.icon }
-
-  switch (error.statusCode) {
-    case ERROR_STATUS.notFound:
-      return 'far fa-face-sad-tear'
-    // TODO: add other error status code
-    default:
-      return 'far fa-face-sad-tear'
+  if (error?.data?.icon) {
+    return error.data.icon;
   }
-})
+
+  if (error.statusCode === ERROR_STATUS.notFound) {
+    return 'far fa-face-sad-tear';
+  }
+
+  return 'far fa-exclamation-circle';
+});
 </script>
 
 <template>
   <NuxtLayout>
     <div class="error-section">
       <div class="icon">
-        <v-icon :icon="icon" size="100" />
+        <v-icon
+          :icon="icon"
+          size="100"
+        />
       </div>
       <div class="description">
         <h2 class="title">

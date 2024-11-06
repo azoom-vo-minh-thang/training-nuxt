@@ -1,19 +1,21 @@
-import { ROUTES, META_AUTH } from '@/config'
+import { ROUTES, META_AUTH } from '@/config';
 
-export default defineNuxtRouteMiddleware(to => {
-  const { $auth } = useNuxtApp()
+export default defineNuxtRouteMiddleware((to) => {
+  const { $auth } = useNuxtApp();
 
-  const isGuest = to.meta.auth === META_AUTH.guest
+  if (to.meta.auth === META_AUTH.guest) {
+    return;
+  }
 
-  if (isGuest) {
+  if (!to.meta.auth) {
     if ($auth.loggedIn.value) {
-      return navigateTo(ROUTES.home.path)
+      return navigateTo(ROUTES.home.path);
     }
 
-    return
+    return;
   }
 
   if (to.meta.auth && !$auth.loggedIn.value && to.name !== ROUTES.login.name) {
-    return navigateTo(ROUTES.login.path)
+    return navigateTo(ROUTES.login.path);
   }
-})
+});

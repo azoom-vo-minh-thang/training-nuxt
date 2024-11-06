@@ -1,10 +1,10 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'layout-content'
-})
+  name: 'LayoutContent'
+});
 
-const appStore = useAppStore()
-const { loading, snackbar, snackbarText, snackbarIcon, snackbarColor, snackbarOptions } = storeToRefs(appStore)
+const appStore = useAppStore();
+const { loading, snackbar, snackbarText, snackbarIcon, snackbarColor, snackbarOptions } = storeToRefs(appStore);
 </script>
 
 <template>

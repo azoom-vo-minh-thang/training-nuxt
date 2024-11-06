@@ -4,6 +4,7 @@ export type User = {
   name: string;
   roles: string;
   token: string;
+  color: string;
 };
 
 export type RegisterPayload = {
@@ -14,4 +15,4 @@ export type RegisterPayload = {
 
 export type LoginResponse = {
   token: string;
-}
+};

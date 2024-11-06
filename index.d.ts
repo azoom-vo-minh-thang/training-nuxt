@@ -1,4 +1,6 @@
 import type { KyInstance } from 'ky';
+import type { Socket } from 'socket.io-client';
+import type { DefaultEventsMap } from '@socket.io/component-emitter';
 
 import type { ApiServices } from '@/services';
 import type { NuxtAppAuth } from '@/types';
@@ -8,6 +10,7 @@ declare module '#app' {
     $ky: KyInstance;
     $services: ApiServices;
     $auth: NuxtAppAuth;
+    $socket: Socket<DefaultEventsMap, DefaultEventsMap>;
   }
 
   interface PageMeta {
@@ -20,7 +23,13 @@ declare module 'vue' {
     $ky: KyInstance;
     $services: ApiServices;
     $auth: NuxtAppAuth;
+    $socket: Socket<DefaultEventsMap, DefaultEventsMap>;
   }
 }
 
+declare global {
+  interface Window {
+    FB: any;
+  }
+}
 export {};

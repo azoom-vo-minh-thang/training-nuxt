@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { z } from 'zod'
+import { z } from 'zod';
 
-import { SNACKBAR_TYPE } from '@/config'
+import { SNACKBAR_TYPE } from '@/config';
 
 definePageMeta({
   layout: 'auth',
   auth: 'guest'
-})
+});
 
-const { $services } = useNuxtApp()
-const route = useRoute()
+const { $services } = useNuxtApp();
+const route = useRoute();
 
-const emailQuery = computed(() => route.query.email as string | undefined)
+const emailQuery = computed(() => route.query.email as string | undefined);
 
-const { showLoading, hideLoading, showSnackbar } = useAppStore()
+const { showLoading, hideLoading, showSnackbar } = useAppStore();
 
 const { useFieldModel, errors, handleSubmit } = useForm({
   initialValues: {
@@ -24,20 +24,20 @@ const { useFieldModel, errors, handleSubmit } = useForm({
       email: z.string().email('Invalid email').nonempty('Email is required')
     })
   )
-})
+});
 
-const email = useFieldModel('email')
+const email = useFieldModel('email');
 
 const onForgotPassword = handleSubmit(async ({ email }) => {
-  showLoading()
-  const redirectUrl = `${window.location.origin}/reset-password`
-  const forgotPasswordResponsive = await $services.auth.forgotPassword(email, redirectUrl)
-  hideLoading()
+  showLoading();
+  const redirectUrl = `${window.location.origin}/reset-password`;
+  const forgotPasswordResponsive = await $services.auth.forgotPassword(email, redirectUrl);
+  hideLoading();
 
   if (forgotPasswordResponsive) {
-    showSnackbar(SNACKBAR_TYPE.success, 'Reset link sent successfully')
+    showSnackbar(SNACKBAR_TYPE.success, 'Reset link sent successfully');
   }
-})
+});
 </script>
 
 <template>
@@ -46,7 +46,9 @@ const onForgotPassword = handleSubmit(async ({ email }) => {
       width="500"
       class="card"
     >
-      <h1 class="title">Forgot password</h1>
+      <h1 class="title">
+        Forgot password
+      </h1>
       <v-form
         class="form"
         @submit.prevent="onForgotPassword"

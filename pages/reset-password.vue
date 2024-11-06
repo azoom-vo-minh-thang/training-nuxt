@@ -1,30 +1,29 @@
 <script setup lang="ts">
-import { z } from 'zod'
+import { z } from 'zod';
 
-import { ERROR_MESSAGES, ERROR_STATUS, SNACKBAR_TYPE, ROUTES } from '@/config'
+import { ERROR_MESSAGES, ERROR_STATUS, SNACKBAR_TYPE, ROUTES } from '@/config';
 
 definePageMeta({
   layout: 'auth',
-  auth: 'guest',
   middleware: [
-    to => {
+    (to) => {
       if (!to.query.token) {
         showError({
           statusCode: ERROR_STATUS.notFound,
           statusMessage: ERROR_MESSAGES.page.pageNotFound,
           message: ERROR_MESSAGES.page.invalidUrl
-        })
+        });
       }
     }
   ]
-})
+});
 
-const route = useRoute()
-const router = useRouter()
-const { $services } = useNuxtApp()
-const { showLoading, hideLoading, showSnackbar } = useAppStore()
+const route = useRoute();
+const router = useRouter();
+const { $services } = useNuxtApp();
+const { showLoading, hideLoading, showSnackbar } = useAppStore();
 
-const token = computed(() => route.query.token as string | undefined)
+const token = computed(() => route.query.token as string | undefined);
 
 const { useFieldModel, errors, handleSubmit } = useForm({
   initialValues: {
@@ -40,22 +39,22 @@ const { useFieldModel, errors, handleSubmit } = useForm({
         .refine((value: string): boolean => value === password.value, 'Passwords do not match')
     })
   )
-})
+});
 
-const [password, confirmPassword] = useFieldModel(['password', 'confirmPassword'])
+const [password, confirmPassword] = useFieldModel(['password', 'confirmPassword']);
 
 const onResetPassword = handleSubmit(async ({ password }) => {
-  showLoading()
-  const resetPasswordResponsive = await $services.auth.resetPassword(token.value!, password)
-  hideLoading()
+  showLoading();
+  const resetPasswordResponsive = await $services.auth.resetPassword(token.value!, password);
+  hideLoading();
 
   if (resetPasswordResponsive) {
-    showSnackbar(SNACKBAR_TYPE.success, 'Password reset successfully')
+    showSnackbar(SNACKBAR_TYPE.success, 'Password reset successfully');
     router.push({
       name: ROUTES.login.name
-    })
+    });
   }
-})
+});
 </script>
 
 <template>
@@ -64,7 +63,9 @@ const onResetPassword = handleSubmit(async ({ password }) => {
       width="500"
       class="card"
     >
-      <h1 class="title">Reset password</h1>
+      <h1 class="title">
+        Reset password
+      </h1>
       <v-form
         class="form"
         @submit.prevent="onResetPassword"

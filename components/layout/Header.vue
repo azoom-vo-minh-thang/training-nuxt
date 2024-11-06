@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const { $auth } = useNuxtApp()
+const { $auth } = useNuxtApp();
 
-const { user } = storeToRefs(useAuthStore())
+const { user } = storeToRefs(useAuthStore());
 
 const logout = () => {
-  $auth.logout()
-}
+  $auth.logout();
+};
 </script>
 
 <template>
@@ -20,7 +20,7 @@ const logout = () => {
     </template>
     <v-spacer />
     <v-menu v-if="user">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn
           color="primary"
           v-bind="props"
@@ -31,9 +31,12 @@ const logout = () => {
       </template>
       <v-list>
         <v-list-item>
-          <v-list-item-title class="action" @click="logout">
-              <v-icon icon="fas fa-sign-out-alt" />
-              <span class="ml-2">Logout</span>
+          <v-list-item-title
+            class="action"
+            @click="logout"
+          >
+            <v-icon icon="fas fa-sign-out-alt" />
+            <span class="ml-2">Logout</span>
           </v-list-item-title>
         </v-list-item>
       </v-list>

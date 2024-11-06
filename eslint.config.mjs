@@ -6,6 +6,7 @@ export default withNuxt(
     rules: {
       'no-console': 'off',
       'vue/html-indent': ['error', 2],
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 );
